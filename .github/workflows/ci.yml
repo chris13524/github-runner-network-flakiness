@@ -1,0 +1,28 @@
+name: WebSocket Listener
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  websocket:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install ws
+
+      - name: Run WebSocket listener
+        env:
+          WEBSOCKET_URL: wss://relay.walletconnect.com/?auth=eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtwU0dXVHhYcTZoWVZyNUYzckNjZnZXdjF1SlFRNjJHN0F3WUhtWGUxcEFYQiIsInN1YiI6ImRiOTllZDVjMGEwZWQwZDNhYzJkNGVhMTBkZTIyZTY4OThhYjg5OTMzMTdkNjM5ZTVmZGE5ODVmZTIwZGRiN2MiLCJhdWQiOiJ3c3M6Ly9yZWxheS53YWxsZXRjb25uZWN0LmNvbSIsImlhdCI6MTcyNDM0MjQyOCwiZXhwIjoxNzI0NDI4ODI4fQ.I3kwkfzZf7ASNssiz7JY3i-VdMUmj41Cut6CTGm-xTC76jllOCERzVJFZs3pyEhG8Y2sBYwyrc2j7MgidXhuBg&projectId=702e2d45d9debca66795614cddb5c1ca&ua=wc-2%2Fjs-2.14.0%2Fmacos-chrome-127.0.0%2Fbrowser%3Adev.lab.web3modal.com&useOnCloseEvent=true
+        run: node index.js
