@@ -5,17 +5,19 @@ const ws = new WebSocket(url);
 
 console.log(`Connecting to WebSocket at ${url}`);
 
+const opened = Date.now()
 ws.on('open', () => {
-  console.log('WebSocket connection opened');
+    console.log('WebSocket connection opened');
 });
 
-ws.on('close', () => {
-  const closeTime = new Date().toISOString();
-  console.log(`WebSocket connection closed at ${closeTime}`);
-  process.exit(0); // Exit after logging the close time
+ws.on('close', e => {
+    const closed = Date.now()
+    const lasted = closed - opened
+    console.log(`WebSocket connection lasted ${lasted}, e: ${e}, e: ${JSON.stringify(e)}`);
+    process.exit(0); // Exit after logging the close time
 });
 
 ws.on('error', (err) => {
-  console.error(`Error: ${err.message}`);
-  process.exit(1); // Exit with error status
+    console.error(`Error: ${err.message}`);
+    process.exit(1); // Exit with error status
 });
